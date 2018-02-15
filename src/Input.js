@@ -47,7 +47,8 @@ class Input extends Component {
         <div
           onClick={this.onClick}
         >
-          mrdat
+          {value}
+          {focused && <Cursor />}
         </div>
       )
   }

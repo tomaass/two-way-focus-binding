@@ -8,7 +8,7 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      value: '',
+      value: 'foo',
       isFocused: false,
       cursorPosition: 0,
     };
@@ -52,7 +52,7 @@ class App extends Component {
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             value={value}
-            focused={document.activeElement === this.ref1}
+            focused={this.state.isFocused}
           />
         </div>
         <div style={{border:'1px solid black'}}>
@@ -62,13 +62,9 @@ class App extends Component {
             onFocus={this.onFocus}
             onBlur={this.onBlur}
             value={value}
-            focused={document.activeElement === this.ref2}
+            focused={this.state.isFocused}
           />
         </div>
-        <p>
-          TADY JE KURZOR
-          <Cursor />
-        </p>
         <p>FOCUSED: {this.state.isFocused.toString()}</p>
       </div>
     );
