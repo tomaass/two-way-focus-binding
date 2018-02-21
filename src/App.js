@@ -4,33 +4,37 @@ import React, { Component } from 'react';
 import Input from './Input';
 import Cursor from './Cursor'
 
+let x = true;
 class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
       value: 'foo',
       isFocused: false,
-      cursorPosition: 0,
+      start: 0,
+      end: 0
     };
   }
 
-  componentDidMount() {
-    for (var property in this.ref1) {
-      if (property.slice(0, 2) === 'on') {
-        this.ref1.addEventListener(
-          property.slice(2, property.length),
-          (event) => {
-            if (event.target && event.target.selectionStart) {
-              console.log('start', event.target.selectionStart);
+  componentDidUpdate() {
+    if (x && this.ref1) {
+      x = false
+      for (var p in this.ref1) {
+        if (p.slice(0, 2) === 'on') {
+          this.ref1.addEventListener(
+            p.slice(2, p.length),
+            event =>
+              setTimeout(() => {
+                this.setState({
+                  start: event.target.selectionStart,
+                  end: event.target.selectionEnd
+                })
+
+              }, 2)
+              )}
             }
-            if (event.target && event.target.selectionEnd) {
-              console.log('end', event.target.selectionEnd);
-            }
-          }
-        )
+        }
       }
-    }
-  }
 
   onInput = (event) => {
     this.setState({ value: event.target.value });
@@ -41,7 +45,7 @@ class App extends Component {
   onBlur = () => this.setState({isFocused: false})
 
   render() {
-    const { value } = this.state
+    const { value, end, start } = this.state
 
     return (
       <div className="App">
@@ -51,6 +55,8 @@ class App extends Component {
             onInput={this.onInput}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
+            start={start}
+            end={end}
             value={value}
             focused={this.state.isFocused}
           />
@@ -61,6 +67,8 @@ class App extends Component {
             onInput={this.onInput}
             onFocus={this.onFocus}
             onBlur={this.onBlur}
+            start={start}
+            end={end}
             value={value}
             focused={this.state.isFocused}
           />
