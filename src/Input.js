@@ -35,7 +35,6 @@ class Input extends Component {
       setRef,
       onInput,
       onFocus,
-      onBlur,
       value,
       focused,
       start,
@@ -48,7 +47,7 @@ class Input extends Component {
         <span
           key={ch + i}
           ref={ref => {
-            if(ref) { widths.set(i, ref.offsetWidth); }
+            if(ref) { widths.set(i, ch === ' ' ? 4.45 : ref.offsetWidth); }
           }}
         >
           {ch}
@@ -78,9 +77,10 @@ class Input extends Component {
           style={{
             outlineColor: '#4D90FE',
             outlineOffset: '-2px',
+            whiteSpace: 'nowrap',
+            textOverflow: 'clip',
             outlineStyle: 'auto',
             outlineWidth: '5px',
-            width: '173px',
             margin: '0 auto',
             textAlign: focused && 'left',
           }}

@@ -1,8 +1,6 @@
 import './App.css';
-import logo from './logo.svg';
 import React, { Component } from 'react';
 import Input from './Input';
-import Cursor from './Cursor'
 
 let x = true;
 class App extends Component {
@@ -25,11 +23,30 @@ class App extends Component {
             p.slice(2, p.length),
             event =>
               setTimeout(() => {
-                this.setState({
-                  start: event.target.selectionStart,
-                  end: event.target.selectionEnd
-                })
-
+                if (this.state.isFocused) {
+                  this.setState({
+                    start: event.target.selectionStart,
+                    end: event.target.selectionEnd
+                  })
+                }
+              }, 2)
+              )}
+            }
+        }
+    if (x && this.ref2) {
+      x = false
+      for (var d in this.ref2) {
+        if (d.slice(0, 2) === 'on') {
+          this.ref2.addEventListener(
+            d.slice(2, d.length),
+            event =>
+              setTimeout(() => {
+                if (this.state.isFocused) {
+                  this.setState({
+                    start: event.target.selectionStart,
+                    end: event.target.selectionEnd
+                  })
+                }
               }, 2)
               )}
             }
@@ -42,7 +59,14 @@ class App extends Component {
 
   onFocus = () => this.setState({isFocused: true})
 
-  onBlur = () => this.setState({isFocused: false})
+  onBlur = () => {
+    x = true
+    this.setState({
+      isFocused: false,
+      start: 0,
+      end: 0
+    })
+  }
 
   render() {
     const { value, end, start } = this.state
